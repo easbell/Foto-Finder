@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Foto Finder</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  </head>
+  <body>
+    <section class="top">
+      <nav>
+        <h1>foto<img class="camera" src="assets/foto-finder-logo.svg">finder</h1>
+        <div class="search-section">
+          <input type="text" id="search" placeholder="Search">
+          <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+      </nav>
+      <article class="input-area">
+        <h3>Title</h3>
+        <input type="text" id="title">
+        <h3>Caption</h3>
+        <input type="text" id="caption"></input>
+        <div class="btn choose-file">
+          <input type="file" name="file" id="input-file" class="inputfile" />
+          <label for="input-file" id="input-label" class="choose-btn">Choose a file</label>
+        </div>
+        <article class="sort-btns">
+          <button class="btn" id="fav">View Favorites</button>
+          <button class="btn" id="add-to-album">Add to Album</button>
+        </article>
+      </article>
+    </section>
+    <section class="bottom images">
+      
+    </section>
+  </body>
+  <script type="text/javascript" src="photo.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</html>
