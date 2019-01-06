@@ -4,18 +4,28 @@ class Photo {
     this.file = file;
     this.title = title;
     this.caption = caption;
-    this.favorite = false;
+    this.favorite = favorite || false;
   }
   
-  saveToStorage(imagesArr) {
+  static saveToStorage(imagesArr) {
     localStorage.setItem('photos', JSON.stringify(imagesArr));
   }
   
-  deleteFromStorage() {
-
+  static deleteFromStorage(id) {
+    imagesArr.forEach(function(image) {
+      if (image.id === id) {
+      imagesArr.splice(image, 1);
+      }
+      Photo.saveToStorage(imagesArr);
+    });
   }
 
-  updatePhoto() {
-    
+  static updatePhoto(id, type, newContent) {
+    imagesArr.forEach(function(image) {
+      if (image.id === id) {
+        image[type] = newContent;
+      }
+      Photo.saveToStorage(imagesArr);
+    });
   }
 }
