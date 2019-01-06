@@ -4,7 +4,7 @@
 
 body {
   display: grid;
-  grid-template-rows: 500px 1fr;
+  grid-template-rows: 1fr 2fr;
   color: white;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
@@ -12,6 +12,7 @@ body {
 
 .top {
   background-color: #3e2a35;
+  min-height: 500px;
 }
 
 
@@ -127,6 +128,11 @@ h3 {
   margin: 0;
 }
 
+#add-to-album:disabled {
+  background-color: #a29396;
+  border: 2px solid #a29396; 
+}
+
 
 /*CARDS AREA*/
 
@@ -135,7 +141,7 @@ h3 {
   background-color: #c5b0b4;
   display: grid;
   justify-content: center;
-  grid-gap: 10px;
+  grid-gap: 40px;
   grid-template-columns: repeat(auto-fit, 250px);
 }
 
@@ -143,7 +149,7 @@ h3 {
   max-height: 350px;
   display: flex;
   flex-direction: column;
-  width: 220px;
+  justify-content: space-between;
   border: 2px solid #968083;
   color: #422735;
   background-color: #FFF;

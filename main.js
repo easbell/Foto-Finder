@@ -17,55 +17,132 @@ var reader = new FileReader();
 
 ///////////////////////////////////////////////////////////
 // EVENT LISTENERS
+
 window.addEventListener('load', appendPhotos);
+
 toAlbum.addEventListener('click', createElement);
+
+photoGallery.addEventListener('click', deleteCard);
+
+photoGallery.addEventListener('dblclick', editCard);
+
+photoGallery.addEventListener('click', favorite);
+
+window.addEventListener('input', enableButton);
 
 
 ///////////////////////////////////////////////////////////
 // FUNCTIONS
+
+//APPEND PHOTOS ON RELOAD
 function appendPhotos() {
-  if (localStorage.hasOwnProperty('photos')) {
-  imagesArr.forEach(function (element, index) {
-    var newPhoto = new Photo(element.id, element.file, element.title, element.caption, element.favorite);
-    addPhoto(element);
-    imagesArr.push(newPhoto)
-    });
-  }
+  imagesArr.forEach(function (photo) {
+    photoGallery.insertAdjacentHTML('afterbegin',
+    `<article data-id=${photo.id} class="card">
+        <h4 class="photo-title">${photo.title}</h4>
+        <section class="card-img">
+          <img class="uploaded-img" src=${photo.file} />
+        </section>
+        <p class="photo-caption">${photo.caption}</p>
+        <div class="card-foot">
+          <img class="delete" src="assets/delete.svg">
+          <img class="favorite" src=${photo.favorite ? "assets/favorite-active.svg" : "assets/favorite.svg"}>
+        </div>
+      </article>`);
+  });
 }
 
-function createElement() {
+//CREATE IMAGE STRING
+function createElement(e) {
   if (inputFile.files[0]) {
     reader.readAsDataURL(inputFile.files[0]); 
-    reader.onload = addPhoto;
+    reader.onload = addPhoto
   }
 }
 
+//CREATE INITIAL PHOTO
 function addPhoto(e) {
-  console.log(e.target.result)
-  var newPhoto = new Photo(Date.now(), e.target.result, titleInput.value, captionInput.value);
+  var id = Date.now()
+  var newPhoto = new Photo(id, e.target.result, titleInput.value, captionInput.value);
   photoGallery.insertAdjacentHTML('afterbegin',
-    `<article class="card">
-        <h4>${titleInput.value}</h4>
+    `<article data-id=${id} class="card">
+        <h4 class="photo-title">${titleInput.value}</h4>
         <section class="card-img">
           <img class="uploaded-img" src=${e.target.result} />
         </section>
-        <p>${captionInput.value}</p>
+        <p class="photo-caption">${captionInput.value}</p>
         <div class="card-foot">
-          <img id="delete" src="assets/delete.svg">
-          <img id="favorite" onclick="favorite();" src="assets/favorite.svg">
+          <img class="delete" src="assets/delete.svg">
+          <img class="favorite" src="assets/favorite.svg">
         </div>
       </article>`
       );
   imagesArr.push(newPhoto)
-  newPhoto.saveToStorage(imagesArr)
+  Photo.saveToStorage(imagesArr)
+}
+
+// function multiEvents(e) {
+//   e.target.contentEditable = true;
+//   if (document.body.addEventListener('keypress', function(e) {
+//     var key = e.keyCode;
+//     if (key === 13)
+//     editCard();
+//     }));
+//   } else if (document.body.addEventListener('focusout', function(e) {
+//     editCard();
+//   }));
+// }
+// CREATE FUNCTION BASED ON BOTH EVENT LISTENERS TO SATISFY RETURN AND CLICK OUT?????
+
+//DISABLED BUTTON
+function enableButton() {
+  var parsedTitle = parseInt(titleInput.value.length);
+  var parsedCaption = parseInt(captionInput.value.length);
+  if ((parsedTitle >= 1 || parsedCaption >=1) && (inputFile.files.length === 0)) {
+    toAlbum.disabled = false;
+  } else if (parsedTitle === 0 && parsedCaption === 0) {
+    toAlbum.disabled = true;
+  }
+}
+
+// EDIT CARD
+function editCard(e) {
+  e.target.contentEditable = true;
+  document.body.addEventListener('keypress', function(e) {
+    var key = e.keyCode;
+    if (key === 13) {
+      e.target.contentEditable = false;
+      var cardId = parseInt(e.target.parentElement.dataset.id);
+      if (e.target.className === "photo-title") {
+        Photo.updatePhoto(cardId, "title", e.target.innerText);
+      } else if (e.target.classList.contains("photo-caption")) {
+        Photo.updatePhoto(cardId, "caption", e.target.innerText);
+      }
+    }
+  });
+}
+
+//DELETE CARD
+function deleteCard(e){
+  var cardId = parseInt(e.target.parentElement.parentElement.dataset.id);
+  if (e.target.className === "delete") {
+    e.target.parentElement.parentElement.remove();
+    Photo.deleteFromStorage(cardId);
+  }
 }
 
 //SWITCH FAVORITE BUTTON
-function favorite() {
-  var favorite = document.getElementById("favorite");
-  if (favorite.src === "file:///Users/elizabethasbell/Turing/foto-finder/assets/favorite.svg") {
-    favorite.src = "file:///Users/elizabethasbell/Turing/foto-finder/assets/favorite-active.svg";
-    } else {
-      favorite.src = "assets/favorite.svg";
+function favorite(e) {
+  if (e.target.className === "favorite") {
+    var cardId = parseInt(e.target.parentElement.parentElement.dataset.id);
+    if (event.target.src === "file:///Users/elizabethasbell/Turing/foto-finder/assets/favorite.svg") {
+    event.target.src = "assets/favorite-active.svg";
+    Photo.updatePhoto(cardId, "favorite", true)
+  } else { 
+    event.target.src = "assets/favorite.svg";
+    Photo.updatePhoto(cardId, "favorite", false)
     }
-};
+  }
+}
+
+
