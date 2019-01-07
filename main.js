@@ -32,6 +32,8 @@ photoGallery.addEventListener('click', favorite);
 
 window.addEventListener('input', enableButton);
 
+searchInput.addEventListener('input', searchFunction);
+
 ///////////////////////////////////////////////////////////
 // FUNCTIONS
 
@@ -80,7 +82,6 @@ function multiEvents(e) {
   document.body.addEventListener('keypress', function(e) {
     var key = e.keyCode;
     if (key === 13) {
-      e.target.blur();
       editCard(e);
     }
   });
@@ -143,3 +144,35 @@ function favorite(e) {
     }
   }
 }
+
+//SEARCH FUNCTION
+function searchFunction() {
+  photoGallery.innerHTML = "";
+  var toFind = searchInput.value.toLowerCase();
+  var filteredPhotos = imagesArr.filter(function(photo) {
+    return photo.title.toLowerCase().includes(toFind) || photo.caption.toLowerCase().includes(toFind);
+  });
+  filteredPhotos.forEach(function(element) {
+    addPhoto(element);
+  })
+}
+
+
+
+
+
+
+
+
+// function searchFunction() {
+//   var localStorageArray = JSON.parse(localStorage.getItem("savedIdeas"));
+//   cardsArea.innerHTML = "";
+//   var toFind = searchField.value;
+//   var filteredIdeas = localStorageArray.filter(function(idea) {
+//     return idea.name.includes(toFind) || idea.content.includes(toFind);
+//   });
+//   filteredIdeas.forEach(function(element){
+//     var newIdea = new Idea(element.name, element.content, element.id, element.quality);
+//     newIdeaCard(element);
+//   });
+// }

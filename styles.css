@@ -4,7 +4,7 @@
 
 body {
   display: grid;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 500px 2fr;
   color: white;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
