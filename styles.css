@@ -123,7 +123,7 @@ h3 {
 }
 
 .sort-btns .btn {
-  width: 42%;
+  width: 30%;
   margin: 0;
 }
 
@@ -145,13 +145,13 @@ h3 {
   grid-template-rows: 350px;
 }
 
-/*.no-images {
+.no-images {
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
   background-color: #c5b0b4;
 }
-*/
+
 h2 {
   color: #36252e;
   font-size: 35px;
@@ -246,7 +246,7 @@ h4,
 
 }
 
-@media screen and (max-width: 470px) {
+@media screen and (max-width: 640px) {
   .input-area {
     justify-content: center;
     margin: auto;
