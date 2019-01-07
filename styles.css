@@ -195,7 +195,70 @@ h4,
 
 
 /*MEDIA QUERIES*/
+@media screen and (max-width: 760px) {
+  body {
+    display: grid;
+    grid-template-rows: 500px 1fr;
+    color: white;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
 
+  .bottom {
+    display: grid;
+    justify-content: center;
+    grid-gap: 40px;
+    grid-template-columns: 250px;
+    grid-template-rows: 350px;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*justify-content: space-between;*/
+  }
+
+  h1 {
+    font-size: 46px;
+    margin-bottom: 10px;
+  }
+
+  .camera {
+    height: 56px;
+    width: 56px;
+  }
+
+  #search-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  #search {
+    font-size: 16px;
+    width: 245px;
+  }
+
+  .input-area {
+    margin: 20px auto;
+    width: 80%;
+  }
+
+}
+
+/*@media screen and (max-width: 470px) {
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 75%;
+    margin-bottom: 36px;
+  }
+}*/
 
 
 
