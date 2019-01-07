@@ -10,7 +10,7 @@ var inputFile = document.getElementById("input-file");
 var viewFavs = document.getElementById("fav");
 var toAlbum = document.getElementById("add-to-album");
 
-var photoGallery = document.querySelector('.images');
+var photoGallery = document.querySelector('.bottom');
 var imagesArr = JSON.parse(localStorage.getItem('photos')) || [];
 var reader = new FileReader();
 
@@ -19,6 +19,8 @@ var reader = new FileReader();
 // EVENT LISTENERS
 
 window.addEventListener('load', appendPhotos);
+
+searchInput.addEventListener('input', searchFunction);
 
 // window.addEventListener('load', noPhotos);
 
@@ -111,12 +113,14 @@ function multiEvents(e) {
 function enableButton() {
   var parsedTitle = parseInt(titleInput.value.length);
   var parsedCaption = parseInt(captionInput.value.length);
-  if ((parsedTitle >= 1 || parsedCaption >=1) && (inputFile.files.length >= 1)) {
+  if ((parsedTitle >= 1) && (inputFile.files.length >= 1)) {
     toAlbum.disabled = false;
-  } else if (parsedTitle === 0 && parsedCaption === 0) {
+  } else if (parsedTitle === 0 && inputFile.files.length === 0) {
     toAlbum.disabled = true;
   }
 }
+
+//make title needed
 
 // EDIT CARD
 function editCard(e) {
@@ -151,3 +155,33 @@ function favorite(e) {
     }
   }
 }
+
+//SEARCH
+function searchFunction() {
+  photoGallery.innerHTML = "";
+  var toFind = searchInput.value;
+  var filteredPhotos = imagesArr.filter(function(photo) {
+    console.log(toFind);
+    return photo.title.includes(toFind) || photo.caption.includes(toFind);
+  });
+  filteredPhotos.forEach(function(element) {
+    appendPhotos(element);
+  })
+}
+
+
+
+
+
+// function searchFunction() {
+//   var localStorageArray = JSON.parse(localStorage.getItem("savedIdeas"));
+//   cardsArea.innerHTML = "";
+//   var toFind = searchField.value;
+//   var filteredIdeas = localStorageArray.filter(function(idea) {
+//     return idea.name.includes(toFind) || idea.content.includes(toFind);
+//   });
+//   filteredIdeas.forEach(function(element){
+//     var newIdea = new Idea(element.name, element.content, element.id, element.quality);
+//     newIdeaCard(element);
+//   });
+// }

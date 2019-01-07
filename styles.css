@@ -4,7 +4,7 @@
 
 body {
   display: grid;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 500px 1fr;
   color: white;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
@@ -147,15 +147,16 @@ h3 {
 }
 
 /*.no-images {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   justify-content: center;
-  padding: 35px 50px;
   background-color: #c5b0b4;
-}*/
-
+}
+*/
 h2 {
   color: #36252e;
   font-size: 35px;
+  text-align: center;
 }
 
 .card {
@@ -208,7 +209,7 @@ h4,
     display: grid;
     justify-content: center;
     grid-gap: 40px;
-    grid-template-columns: 250px;
+    grid-template-columns: repeat(auto-fit, 250px);
     grid-template-rows: 350px;
   }
 
@@ -216,7 +217,6 @@ h4,
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*justify-content: space-between;*/
   }
 
   h1 {
@@ -247,18 +247,35 @@ h4,
 
 }
 
-/*@media screen and (max-width: 470px) {
-  .bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@media screen and (max-width: 470px) {
+  .input-area {
+    justify-content: center;
+    margin: auto;
   }
 
-  .card {
-    width: 75%;
-    margin-bottom: 36px;
+  .bottom {
+    grid-template-columns: repeat(auto-fit, 300px);
   }
-}*/
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .camera {
+    height: 46px;
+    width: 46px;
+  }
+
+  #search-btn {
+    margin-right: 0;
+  }
+
+  #search {
+    font-size: 16px;
+    width: 100%;
+  }
+
+}
 
 
 
