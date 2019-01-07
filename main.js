@@ -34,24 +34,15 @@ photoGallery.addEventListener('click', favorite);
 
 window.addEventListener('input', enableButton);
 
+searchInput.addEventListener('input', searchFunction);
+
 ///////////////////////////////////////////////////////////
 // FUNCTIONS
 
 //APPEND PHOTOS ON RELOAD
 function appendPhotos() {
-  imagesArr.forEach(function (photo) {
-    photoGallery.insertAdjacentHTML('afterbegin',
-    `<article data-id=${photo.id} class="card">
-        <h4 class="photo-title">${photo.title}</h4>
-        <section class="card-img">
-          <img class="uploaded-img" src=${photo.file} />
-        </section>
-        <p class="photo-caption">${photo.caption}</p>
-        <div class="card-foot">
-          <img class="delete" src="assets/delete.svg">
-          <img class="favorite" src=${photo.favorite ? "assets/favorite-active.svg" : "assets/favorite.svg"}>
-        </div>
-      </article>`);
+  imagesArr.forEach(function(photo) {
+    addPhoto(photo);
   });
 }
 
@@ -59,30 +50,33 @@ function appendPhotos() {
 function createElement(e) {
   if (inputFile.files[0]) {
     reader.readAsDataURL(inputFile.files[0]); 
-    reader.onload = addPhoto
+    reader.onload = initialPhoto
   }
 }
 
-//CREATE INITIAL PHOTO
-function addPhoto(e) {
-  var id = Date.now()
-  var newPhoto = new Photo(id, e.target.result, titleInput.value, captionInput.value);
-  photoGallery.insertAdjacentHTML('afterbegin',
-    `<article data-id=${id} class="card">
-        <h4 class="photo-title">${titleInput.value}</h4>
-        <section class="card-img">
-          <img class="uploaded-img" src=${e.target.result} />
-        </section>
-        <p class="photo-caption">${captionInput.value}</p>
-        <div class="card-foot">
-          <img class="delete" src="assets/delete.svg">
-          <img class="favorite" src="assets/favorite.svg">
-        </div>
-      </article>`
-      );
+//INITIALIZE PHOTO CARD
+function initialPhoto(e) {
+  var newPhoto = new Photo(Date.now(), e.target.result, titleInput.value, captionInput.value);
   imagesArr.push(newPhoto)
   Photo.saveToStorage(imagesArr)
+  addPhoto(newPhoto);
 }
+
+//CREATE INITIAL PHOTO
+function addPhoto(photo) {
+  photoGallery.insertAdjacentHTML('afterbegin',
+    `<article data-id=${photo.id} class="card">
+      <h4 class="photo-title">${photo.title}</h4>
+      <section class="card-img">
+        <img class="uploaded-img" src=${photo.file} />
+      </section>
+      <p class="photo-caption">${photo.caption}</p>
+      <div class="card-foot">
+        <img class="delete" src="assets/delete.svg">
+        <img class="favorite" src=${photo.favorite ? "assets/favorite-active.svg" : "assets/favorite.svg"}>
+      </div>
+    </article>`);
+};
 
 //CHECKING FOR BOTH EVENTS
 function multiEvents(e) {
@@ -90,7 +84,6 @@ function multiEvents(e) {
   document.body.addEventListener('keypress', function(e) {
     var key = e.keyCode;
     if (key === 13) {
-      e.target.blur();
       editCard(e);
     }
   });
@@ -156,32 +149,15 @@ function favorite(e) {
   }
 }
 
-//SEARCH
+
+//SEARCH FUNCTION
 function searchFunction() {
   photoGallery.innerHTML = "";
-  var toFind = searchInput.value;
+  var toFind = searchInput.value.toLowerCase();
   var filteredPhotos = imagesArr.filter(function(photo) {
-    console.log(toFind);
-    return photo.title.includes(toFind) || photo.caption.includes(toFind);
+    return photo.title.toLowerCase().includes(toFind) || photo.caption.toLowerCase().includes(toFind);
   });
   filteredPhotos.forEach(function(element) {
-    appendPhotos(element);
+    addPhoto(element);
   })
 }
-
-
-
-
-
-// function searchFunction() {
-//   var localStorageArray = JSON.parse(localStorage.getItem("savedIdeas"));
-//   cardsArea.innerHTML = "";
-//   var toFind = searchField.value;
-//   var filteredIdeas = localStorageArray.filter(function(idea) {
-//     return idea.name.includes(toFind) || idea.content.includes(toFind);
-//   });
-//   filteredIdeas.forEach(function(element){
-//     var newIdea = new Idea(element.name, element.content, element.id, element.quality);
-//     newIdeaCard(element);
-//   });
-// }
