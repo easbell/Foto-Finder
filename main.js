@@ -14,17 +14,23 @@ var photoGallery = document.querySelector('.bottom');
 var imagesArr = JSON.parse(localStorage.getItem('photos')) || [];
 var reader = new FileReader();
 
+var showBtn = document.getElementById("show-more");
+
 
 ///////////////////////////////////////////////////////////
 // EVENT LISTENERS
 
-window.addEventListener('load', appendPhotos);
-
-searchInput.addEventListener('input', searchFunction);
-
 // window.addEventListener('load', noPhotos);
 
+window.addEventListener('load', showTen);
+
+// toAlbum.addEventListener('click', noPhotos);
+
+showBtn.addEventListener('click', showMore);
+
 toAlbum.addEventListener('click', createElement);
+
+searchInput.addEventListener('input', searchFunction);
 
 photoGallery.addEventListener('click', deleteCard);
 
@@ -40,10 +46,29 @@ searchInput.addEventListener('input', searchFunction);
 // FUNCTIONS
 
 //APPEND PHOTOS ON RELOAD
-function appendPhotos() {
-  imagesArr.forEach(function(photo) {
+function appendPhotos(array) {
+  photoGallery.innerHTML = "";
+  array.forEach(function(photo) {
     addPhoto(photo);
   });
+}
+
+//SHOW MORE
+function showMore() {
+  if (showBtn.innerText === "Show More") {
+    appendPhotos(imagesArr);
+    showBtn.innerText = "Show Less";
+  } else if (showBtn.innerText === "Show Less") {
+    showTen();
+    showBtn.innerText = "Show More"
+  }
+}
+
+
+//SHOW TEN
+function showTen() {
+  var shortArray = imagesArr.slice(-10);
+  appendPhotos(shortArray);
 }
 
 //CREATE IMAGE STRING
@@ -95,9 +120,11 @@ function multiEvents(e) {
 //NO PHOTOS
 // function noPhotos() {
 //   if (imagesArr.length === 0) {
-//     photoGallery.classList.remove("bottom");
-//     photoGallery.classList.add("no-images");
+//     photoGallery.classList.replace("buttom", "no-images");
 //     photoGallery.innerHTML = '<h2>Please add photos...</h2>';
+//   } else if (imagesArr.length >= 1) {
+//     photoGallery.classList.replace("no-images", "buttom");
+//     photoGallery.innerHTML = "";
 //   }
 // }
 //NOT PERFECT, NEED TO ADJUST FOR WHEN AN IMAGE IS ADDED
@@ -112,8 +139,6 @@ function enableButton() {
     toAlbum.disabled = true;
   }
 }
-
-//make title needed
 
 // EDIT CARD
 function editCard(e) {
