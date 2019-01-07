@@ -37,19 +37,8 @@ window.addEventListener('input', enableButton);
 
 //APPEND PHOTOS ON RELOAD
 function appendPhotos() {
-  imagesArr.forEach(function (photo) {
-    photoGallery.insertAdjacentHTML('afterbegin',
-    `<article data-id=${photo.id} class="card">
-        <h4 class="photo-title">${photo.title}</h4>
-        <section class="card-img">
-          <img class="uploaded-img" src=${photo.file} />
-        </section>
-        <p class="photo-caption">${photo.caption}</p>
-        <div class="card-foot">
-          <img class="delete" src="assets/delete.svg">
-          <img class="favorite" src=${photo.favorite ? "assets/favorite-active.svg" : "assets/favorite.svg"}>
-        </div>
-      </article>`);
+  imagesArr.forEach(function(photo) {
+    addPhoto(photo);
   });
 }
 
@@ -57,30 +46,33 @@ function appendPhotos() {
 function createElement(e) {
   if (inputFile.files[0]) {
     reader.readAsDataURL(inputFile.files[0]); 
-    reader.onload = addPhoto
+    reader.onload = initialPhoto
   }
 }
 
-//CREATE INITIAL PHOTO
-function addPhoto(e) {
-  var id = Date.now()
-  var newPhoto = new Photo(id, e.target.result, titleInput.value, captionInput.value);
-  photoGallery.insertAdjacentHTML('afterbegin',
-    `<article data-id=${id} class="card">
-        <h4 class="photo-title">${titleInput.value}</h4>
-        <section class="card-img">
-          <img class="uploaded-img" src=${e.target.result} />
-        </section>
-        <p class="photo-caption">${captionInput.value}</p>
-        <div class="card-foot">
-          <img class="delete" src="assets/delete.svg">
-          <img class="favorite" src="assets/favorite.svg">
-        </div>
-      </article>`
-      );
+//INITIALIZE PHOTO CARD
+function initialPhoto(e) {
+  var newPhoto = new Photo(Date.now(), e.target.result, titleInput.value, captionInput.value);
   imagesArr.push(newPhoto)
   Photo.saveToStorage(imagesArr)
+  addPhoto(newPhoto);
 }
+
+//CREATE INITIAL PHOTO
+function addPhoto(photo) {
+  photoGallery.insertAdjacentHTML('afterbegin',
+    `<article data-id=${photo.id} class="card">
+      <h4 class="photo-title">${photo.title}</h4>
+      <section class="card-img">
+        <img class="uploaded-img" src=${photo.file} />
+      </section>
+      <p class="photo-caption">${photo.caption}</p>
+      <div class="card-foot">
+        <img class="delete" src="assets/delete.svg">
+        <img class="favorite" src=${photo.favorite ? "assets/favorite-active.svg" : "assets/favorite.svg"}>
+      </div>
+    </article>`);
+};
 
 //CHECKING FOR BOTH EVENTS
 function multiEvents(e) {
