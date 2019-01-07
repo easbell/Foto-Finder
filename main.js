@@ -20,16 +20,17 @@ var reader = new FileReader();
 
 window.addEventListener('load', appendPhotos);
 
+// window.addEventListener('load', noPhotos);
+
 toAlbum.addEventListener('click', createElement);
 
 photoGallery.addEventListener('click', deleteCard);
 
-photoGallery.addEventListener('dblclick', editCard);
+photoGallery.addEventListener('dblclick', multiEvents);
 
 photoGallery.addEventListener('click', favorite);
 
 window.addEventListener('input', enableButton);
-
 
 ///////////////////////////////////////////////////////////
 // FUNCTIONS
@@ -81,24 +82,36 @@ function addPhoto(e) {
   Photo.saveToStorage(imagesArr)
 }
 
-// function multiEvents(e) {
-//   e.target.contentEditable = true;
-//   if (document.body.addEventListener('keypress', function(e) {
-//     var key = e.keyCode;
-//     if (key === 13)
-//     editCard();
-//     }));
-//   } else if (document.body.addEventListener('focusout', function(e) {
-//     editCard();
-//   }));
+//CHECKING FOR BOTH EVENTS
+function multiEvents(e) {
+  e.target.contentEditable = true; 
+  document.body.addEventListener('keypress', function(e) {
+    var key = e.keyCode;
+    if (key === 13) {
+      e.target.blur();
+      editCard(e);
+    }
+  });
+  document.body.addEventListener('focusout', function(e) {
+    editCard(e);
+  });
+}
+
+//NO PHOTOS
+// function noPhotos() {
+//   if (imagesArr.length === 0) {
+//     photoGallery.classList.remove("bottom");
+//     photoGallery.classList.add("no-images");
+//     photoGallery.innerHTML = '<h2>Please add photos...</h2>';
+//   }
 // }
-// CREATE FUNCTION BASED ON BOTH EVENT LISTENERS TO SATISFY RETURN AND CLICK OUT?????
+//NOT PERFECT, NEED TO ADJUST FOR WHEN AN IMAGE IS ADDED
 
 //DISABLED BUTTON
 function enableButton() {
   var parsedTitle = parseInt(titleInput.value.length);
   var parsedCaption = parseInt(captionInput.value.length);
-  if ((parsedTitle >= 1 || parsedCaption >=1) && (inputFile.files.length === 0)) {
+  if ((parsedTitle >= 1 || parsedCaption >=1) && (inputFile.files.length >= 1)) {
     toAlbum.disabled = false;
   } else if (parsedTitle === 0 && parsedCaption === 0) {
     toAlbum.disabled = true;
@@ -107,19 +120,13 @@ function enableButton() {
 
 // EDIT CARD
 function editCard(e) {
-  e.target.contentEditable = true;
-  document.body.addEventListener('keypress', function(e) {
-    var key = e.keyCode;
-    if (key === 13) {
-      e.target.contentEditable = false;
-      var cardId = parseInt(e.target.parentElement.dataset.id);
-      if (e.target.className === "photo-title") {
-        Photo.updatePhoto(cardId, "title", e.target.innerText);
-      } else if (e.target.classList.contains("photo-caption")) {
-        Photo.updatePhoto(cardId, "caption", e.target.innerText);
-      }
-    }
-  });
+  var cardId = parseInt(e.target.parentElement.dataset.id);
+  if (e.target.className === "photo-title") {
+    Photo.updatePhoto(cardId, "title", e.target.innerText);
+  } else if (e.target.classList.contains("photo-caption")) {
+    Photo.updatePhoto(cardId, "caption", e.target.innerText);
+  }
+  e.target.contentEditable = false; 
 }
 
 //DELETE CARD
@@ -135,14 +142,12 @@ function deleteCard(e){
 function favorite(e) {
   if (e.target.className === "favorite") {
     var cardId = parseInt(e.target.parentElement.parentElement.dataset.id);
-    if (event.target.src === "file:///Users/elizabethasbell/Turing/foto-finder/assets/favorite.svg") {
-    event.target.src = "assets/favorite-active.svg";
+    if (event.target.attributes.src.textContent === "assets/favorite.svg") {
+    event.target.attributes.src.textContent = "assets/favorite-active.svg";
     Photo.updatePhoto(cardId, "favorite", true)
   } else { 
-    event.target.src = "assets/favorite.svg";
+    event.target.attributes.src.textContent = "assets/favorite.svg";
     Photo.updatePhoto(cardId, "favorite", false)
     }
   }
 }
-
-

@@ -14,7 +14,7 @@ class Photo {
   static deleteFromStorage(id) {
     imagesArr.forEach(function(image) {
       if (image.id === id) {
-      imagesArr.splice(image, 1);
+        imagesArr.splice(image, 1);
       }
       Photo.saveToStorage(imagesArr);
     });
