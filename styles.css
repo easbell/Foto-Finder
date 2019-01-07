@@ -4,7 +4,7 @@
 
 body {
   display: grid;
-  grid-template-rows: 500px 2fr;
+  grid-template-rows: 500px 1fr;
   color: white;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
@@ -14,7 +14,6 @@ body {
   background-color: #3e2a35;
   min-height: 500px;
 }
-
 
 /*NAV BAR*/
 nav {
@@ -147,15 +146,16 @@ h3 {
 }
 
 /*.no-images {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   justify-content: center;
-  padding: 35px 50px;
   background-color: #c5b0b4;
-}*/
-
+}
+*/
 h2 {
   color: #36252e;
   font-size: 35px;
+  text-align: center;
 }
 
 .card {
@@ -195,7 +195,86 @@ h4,
 
 
 /*MEDIA QUERIES*/
+@media screen and (max-width: 760px) {
+  body {
+    display: grid;
+    grid-template-rows: 500px 1fr;
+    color: white;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
 
+  .bottom {
+    display: grid;
+    justify-content: center;
+    grid-gap: 40px;
+    grid-template-columns: repeat(auto-fit, 250px);
+    grid-template-rows: 350px;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 46px;
+    margin-bottom: 10px;
+  }
+
+  .camera {
+    height: 56px;
+    width: 56px;
+  }
+
+  #search-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  #search {
+    font-size: 16px;
+    width: 245px;
+  }
+
+  .input-area {
+    margin: 20px auto;
+    width: 80%;
+  }
+
+}
+
+@media screen and (max-width: 470px) {
+  .input-area {
+    justify-content: center;
+    margin: auto;
+  }
+
+  .bottom {
+    grid-template-columns: repeat(auto-fit, 300px);
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .camera {
+    height: 46px;
+    width: 46px;
+  }
+
+  #search-btn {
+    margin-right: 0;
+  }
+
+  #search {
+    font-size: 16px;
+    width: 100%;
+  }
+
+}
 
 
 
