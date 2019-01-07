@@ -6,13 +6,13 @@ body {
   display: grid;
   grid-template-rows: 500px 1fr;
   color: white;
+  background-color: #c5b0b4;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
 }
 
 .top {
   background-color: #3e2a35;
-  min-height: 500px;
 }
 
 /*NAV BAR*/
@@ -37,10 +37,6 @@ h1 {
   margin: 0px 8px 2px 4px;
 }
 
-.input-area {
-  width: 50%;
-  margin: auto;
-}
 
 /*SEARCH BAR*/
 .search-section {
@@ -78,7 +74,6 @@ h3 {
 }
 
 .input-area {
-  justify-content: center;
   margin: 0px auto;
   color: #baa5aa;
   width: 57%;
@@ -87,16 +82,16 @@ h3 {
 .input-area input {
   width: 100%;
   height: 40px;
-  border: 0;
 }
 
 .inputfile {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
   position: absolute;
   z-index: -1;
+}
+
+#input-label {
+  width: 100%;
+  text-align: center;
 }
 
 .choose-file {
@@ -106,7 +101,6 @@ h3 {
   align-items: center;
 }
 
-
 .btn {
   height: 40px;
   background-color: #5f4146;
@@ -115,6 +109,11 @@ h3 {
   border: 2px solid #5f4146; 
   color: #FFF;
   font-size: 14px;
+}
+
+.btn:hover {
+  background-color: #c5b0b4;
+  border: 2px solid #c5b0b4;
 }
 
 .sort-btns {
@@ -128,34 +127,35 @@ h3 {
 }
 
 #add-to-album:disabled {
-  background-color: #a29396;
-  border: 2px solid #a29396; 
+  background-color: #756769;
+  border: 2px solid #756769; 
 }
 
 
 /*CARDS AREA*/
 
 .bottom {
-  padding: 35px 50px;
-  background-color: #c5b0b4;
+  padding: 35px;
   display: grid;
   justify-content: center;
-  grid-gap: 40px;
+  grid-gap: 35px;
   grid-template-columns: repeat(auto-fit, 250px);
   grid-template-rows: 350px;
 }
 
 .no-images {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   justify-content: center;
-  background-color: #c5b0b4;
+  height: 100%
 }
 
 h2 {
   color: #36252e;
   font-size: 35px;
-  text-align: center;
+}
+
+.hidden {
+  display: hidden;
 }
 
 .card {
@@ -276,5 +276,20 @@ h4,
 
 }
 
+@media screen and (max-width: 520px) {
+  .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    margin: 5px;
+  }
+
+  .input-area {
+    margin: 5px;
+  }
+}
 
 

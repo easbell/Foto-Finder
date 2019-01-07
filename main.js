@@ -21,9 +21,9 @@ var favBtn = document.getElementById("fav");
 ///////////////////////////////////////////////////////////
 // EVENT LISTENERS
 
-// window.addEventListener('load', noPhotos);
+window.addEventListener('load', noPhotos);
 
-window.addEventListener('load', showTen);
+// window.addEventListener('load', showTen);
 
 // toAlbum.addEventListener('click', noPhotos);
 
@@ -41,7 +41,9 @@ photoGallery.addEventListener('dblclick', multiEvents);
 
 photoGallery.addEventListener('click', favorite);
 
-window.addEventListener('input', enableButton);
+titleInput.addEventListener('input', enableButton);
+
+inputFile.addEventListener('change', enableButton);
 
 searchInput.addEventListener('input', searchFunction);
 
@@ -62,10 +64,9 @@ function showFavs() {
     var filteredFavs = imagesArr.filter(function(photo) {
       return photo.favorite === true;
     });
-    favBtn.innerText = "Show All";
+    favBtn.innerText = "Show All Photos";
     appendPhotos(filteredFavs);
   } else if (favBtn.innerText.includes("Show")) {
-    // favBtn.innerText = "View Favorites";
     favCounter();
     appendPhotos(imagesArr);
   };
@@ -92,7 +93,6 @@ function showMore() {
   }
 }
 
-
 //SHOW TEN
 function showTen() {
   var shortArray = imagesArr.slice(-10);
@@ -104,7 +104,7 @@ function showTen() {
 function createElement(e) {
   if (inputFile.files[0]) {
     reader.readAsDataURL(inputFile.files[0]); 
-    reader.onload = initialPhoto
+    reader.onload = initialPhoto;
   }
 }
 
@@ -114,6 +114,11 @@ function initialPhoto(e) {
   imagesArr.push(newPhoto)
   Photo.saveToStorage(imagesArr)
   addPhoto(newPhoto);
+  noPhotos();
+  titleInput.value = "";
+  captionInput.value = "";
+  inputFile.value = "";
+  enableButton();
 }
 
 //CREATE INITIAL PHOTO
@@ -126,8 +131,8 @@ function addPhoto(photo) {
       </section>
       <p class="photo-caption">${photo.caption}</p>
       <div class="card-foot">
-        <img class="delete" src="assets/delete.svg">
-        <img class="favorite" src=${photo.favorite ? "assets/favorite-active.svg" : "assets/favorite.svg"}>
+        <img alt="delete button" class="delete" src="assets/delete.svg">
+        <img alt="favorite button" class="favorite" src=${photo.favorite ? "assets/favorite-active.svg" : "assets/favorite.svg"}>
       </div>
     </article>`);
 };
@@ -147,26 +152,20 @@ function multiEvents(e) {
 }
 
 //NO PHOTOS
-// function noPhotos() {
-//   if (imagesArr.length === 0) {
-//     photoGallery.classList.replace("buttom", "no-images");
-//     photoGallery.innerHTML = '<h2>Please add photos...</h2>';
-//   } else if (imagesArr.length >= 1) {
-//     photoGallery.classList.replace("no-images", "buttom");
-//     photoGallery.innerHTML = "";
-//   }
-// }
-//NOT PERFECT, NEED TO ADJUST FOR WHEN AN IMAGE IS ADDED
+function noPhotos() {
+  if (imagesArr.length === 0) {
+    photoGallery.classList.replace("bottom", "no-images");
+    photoGallery.innerHTML = '<h2>Please add photos...</h2>';
+  } else if (imagesArr.length >= 1) {
+    photoGallery.classList.replace("no-images", "bottom");
+    showTen();
+  }
+}
 
 //DISABLED BUTTON
 function enableButton() {
-  var parsedTitle = parseInt(titleInput.value.length);
-  var parsedCaption = parseInt(captionInput.value.length);
-  if ((parsedTitle >= 1) && (inputFile.files.length >= 1)) {
-    toAlbum.disabled = false;
-  } else if (parsedTitle === 0 && inputFile.files.length === 0) {
-    toAlbum.disabled = true;
-  }
+  var titleLength = titleInput.value.length;
+  titleLength && inputFile.files.length ? toAlbum.disabled = false : toAlbum.disabled = true;
 }
 
 // EDIT CARD
