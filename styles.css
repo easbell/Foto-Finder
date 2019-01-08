@@ -166,6 +166,10 @@ h2 {
   background-color: #FFF;
 }
 
+.card:hover {
+  box-shadow: 0 12px 24px 0 rgba(0,0,0,0.2);
+}
+
 h4,
 .card p {
   margin: 15px 15px;
