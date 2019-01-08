@@ -12,9 +12,9 @@ class Photo {
   }
   
   static deleteFromStorage(id) {
-    imagesArr.forEach(function(image) {
+    imagesArr.forEach(function(image, idx) {
       if (image.id === id) {
-        imagesArr.splice(image, 1);
+        imagesArr.splice(idx, 1);
       }
       Photo.saveToStorage(imagesArr);
     });
