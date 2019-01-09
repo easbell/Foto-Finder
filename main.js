@@ -21,7 +21,7 @@ var reader = new FileReader();
 
 window.addEventListener('load', noPhotos);
 showBtn.addEventListener('click', showMore);
-favBtn.addEventListener('click', showFavs)
+favBtn.addEventListener('click', showFavs);
 toAlbum.addEventListener('click', createElement);
 searchInput.addEventListener('input', searchFunction);
 photoGallery.addEventListener('click', deleteCard);
@@ -33,31 +33,11 @@ searchInput.addEventListener('input', detectSearchType);
 
 ///////////////////////////////////////////////////////////
 // FUNCTIONS
-
-function appendPhotos(array) {
-  photoGallery.innerHTML = "";
-  array.forEach(function(photo) {
-    addPhoto(photo);
-  });
-}
-
-function showTen() {
-  var shortArray = imagesArr.slice(-10);
-  appendPhotos(shortArray);
-  favCounter();
-}
-
 function createElement(e) {
   if (inputFile.files[0]) {
     reader.readAsDataURL(inputFile.files[0]); 
     reader.onload = initialPhoto;
   }
-}
-
-function clearFields() {
-  titleInput.value = "";
-  captionInput.value = "";
-  inputFile.value = "";
 }
 
 function initialPhoto(e) {
@@ -85,6 +65,25 @@ function addPhoto(photo) {
     </article>`);
 }
 
+function appendPhotos(array) {
+  photoGallery.innerHTML = "";
+  array.forEach(photo => {
+    addPhoto(photo);
+  });
+}
+
+function showTen() {
+  var shortArray = imagesArr.slice(-10);
+  appendPhotos(shortArray);
+  favCounter();
+}
+
+function clearFields() {
+  titleInput.value = "";
+  captionInput.value = "";
+  inputFile.value = "";
+}
+
 function detectSearchType() {
   if (favBtn.innerText === "Show All Photos") {
     arrayToSearch = filteredFavs;
@@ -95,14 +94,14 @@ function detectSearchType() {
 
 function searchFunction(arr) {
   var toFind = searchInput.value.toLowerCase();
-  var filteredPhotos = arr.filter(function(element) {
+  var filteredPhotos = arr.filter(element => {
     return element.title.toLowerCase().includes(toFind) || element.caption.toLowerCase().includes(toFind);
   });
   appendPhotos(filteredPhotos);
 }
 
 function showFavs() {
-  filteredFavs = imagesArr.filter(function(photo) {
+  filteredFavs = imagesArr.filter(photo => {
       return photo.favorite === true;
     });
   if (favBtn.innerText.includes("View")) {
@@ -117,7 +116,7 @@ function showFavs() {
 
 function favCounter() {
   var amount = 0;
-  imagesArr.forEach(function(photo) {
+  imagesArr.forEach(photo => {
     if(photo.favorite === true) {
       amount++;
     }

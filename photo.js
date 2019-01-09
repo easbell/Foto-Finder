@@ -12,7 +12,7 @@ class Photo {
   }
   
   static deleteFromStorage(id) {
-    imagesArr.forEach(function(image, idx) {
+    imagesArr.forEach((image, idx) => {
       if (image.id === id) {
         imagesArr.splice(idx, 1);
       }
@@ -21,7 +21,7 @@ class Photo {
   }
 
   static updatePhoto(id, type, newContent) {
-    imagesArr.forEach(function(image) {
+    imagesArr.forEach(image => {
       if (image.id === id) {
         image[type] = newContent;
       }
