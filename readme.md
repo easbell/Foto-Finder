@@ -7,7 +7,7 @@ This was my first solo JavaScript project. Writing and implement every piece of 
 # Screen Grabs
 
 # Project
-![foto-finder](https://user-images.githubusercontent.com/34728115/50876614-40cbf100-138b-11e9-90f7-01d5aa77f048.png)
+![fotofinder](https://user-images.githubusercontent.com/34728115/50876833-3b22db00-138c-11e9-84e1-92bbdc9eb004.png)
 
 # Comp
 ![comp](https://user-images.githubusercontent.com/34728115/50876621-475a6880-138b-11e9-9c02-3ca429422d75.png)
