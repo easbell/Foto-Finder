@@ -23,7 +23,6 @@ window.addEventListener('load', noPhotos);
 showBtn.addEventListener('click', showMore);
 favBtn.addEventListener('click', showFavs);
 toAlbum.addEventListener('click', createElement);
-searchInput.addEventListener('input', searchFunction);
 photoGallery.addEventListener('click', deleteCard);
 photoGallery.addEventListener('dblclick', multiEvents);
 photoGallery.addEventListener('click', favorite);
@@ -93,6 +92,7 @@ function detectSearchType() {
 }
 
 function searchFunction(arr) {
+  console.log(arr);
   var toFind = searchInput.value.toLowerCase();
   var filteredPhotos = arr.filter(element => {
     return element.title.toLowerCase().includes(toFind) || element.caption.toLowerCase().includes(toFind);
